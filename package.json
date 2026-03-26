@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "build": "prisma generate && tsc",
-    "vercel-build": "prisma generate && esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --packages=external --outfile=api/index.js",
+    "vercel-build": "prisma generate && esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --packages=external --outfile=api/index.js && mkdir -p api/templates && cp src/app/templates/* api/templates/",
     "postinstall": "prisma generate",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint ./src/**/*",
@@ -39,7 +39,6 @@
     "ms": "^2.1.3",
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
-    "node-cron": "^4.2.1",
     "nodemailer": "^8.0.1",
     "pdfkit": "^0.17.2",
     "pg": "^8.18.0",

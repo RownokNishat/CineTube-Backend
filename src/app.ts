@@ -5,6 +5,7 @@ import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import path from "path";
 import qs from "qs";
+import { fileURLToPath } from "url";
 import { envVars } from "./app/config/env";
 import { auth } from "./app/lib/auth";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
@@ -15,8 +16,11 @@ import { IndexRoutes } from "./app/routes";
 const app: Application = express();
 app.set("query parser", (str : string) => qs.parse(str));
 
+const _bundleDir = path.dirname(fileURLToPath(import.meta.url));
+const templatesPath = envVars.NODE_ENV === 'production'
+    ? path.resolve(_bundleDir, 'templates')
+    : path.resolve(process.cwd(), 'src/app/templates');
 app.set("view engine", "ejs");
-const templatesPath = path.resolve(__dirname, envVars.NODE_ENV === 'production' ? 'app/templates' : 'app/templates');
 app.set("views", templatesPath);
 
 app.post("/webhook", express.raw({ type: "application/json" }), PaymentController.handleStripeWebhookEvent)
