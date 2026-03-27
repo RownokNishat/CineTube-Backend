@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "build": "prisma generate && tsc",
-    "vercel-build": "prisma generate && esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --packages=external --outfile=api/index.js && mkdir -p api/templates && cp src/app/templates/* api/templates/",
+    "vercel-build": "prisma generate && ./node_modules/.bin/esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --packages=external --outfile=api/index.js",
     "postinstall": "prisma generate",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint ./src/**/*",
@@ -68,5 +68,8 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "prisma", "@prisma/client"]
   }
 }
